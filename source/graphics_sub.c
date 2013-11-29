@@ -1,20 +1,27 @@
 #include "graphics_sub.h"
 #include "game.h"
 
+#include "bottom.h"
+
 void configureGraphics_Sub() {
-	// Configure the MAIN engine in Rotoscale Mode
-	//...TO COMPLETE EXERCISE 2
+    // Configure the SUB engine in Rotoscale Mode
+    REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;
+
 	// Configure the corresponding VRAM memory bank correctly
-	//...TO COMPLETE EXERCISE 2
+    VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 }
 
 
 void configBG2_Sub() {
 	// Configure background BG2 in rotoscale mode using 8bit pixels
-	//...TO COMPLETE EXERCISE 2
+    BGCTRL_SUB[2] = BG_MAP_BASE(0) | BgSize_B8_256x256;
 
 	// Transfer image and palette to the corresponding memory locations
-	//...TO COMPLETE EXERCISE 2
+
+    // I needed help here because I had source and dest confused!!!
+
+    swiCopy(bottomPal, BG_PALETTE_SUB, bottomPalLen/2);
+    swiCopy(bottomBitmap, BG_GFX_SUB, bottomBitmapLen/2);
 
     // Set up affine matrix
     REG_BG2PA_SUB = 256;
