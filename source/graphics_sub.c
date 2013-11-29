@@ -32,7 +32,7 @@ void configBG2_Sub() {
 
 
 
-u16 tileEmpty[65] = {
+u8 tileEmpty[64] = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -43,7 +43,7 @@ u16 tileEmpty[65] = {
     0, 0, 0, 0, 0, 0, 0, 0
 };
 
-u16 tileFull[65] = {
+u8 tileFull[64] = {
     255, 255, 255, 255, 255, 255, 255, 255,
     255, 254, 254, 254, 254, 254, 254, 255,
     255, 254, 255, 255, 255, 255, 254, 255,
@@ -60,11 +60,11 @@ u16 tileFull[65] = {
 void configBG0_Sub() {
 
 	// Configure background BG0 in tiled mode using a 32x32 grid and 256 colors
-    BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(2) | BG_TILE_BASE(1);
+    BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(25) | BG_TILE_BASE(4);
 
 	// Transfer custom tiles to the proper memory locations
-    swiCopy(&tileEmpty, &BG_TILE_RAM_SUB(1)[0], 32);
-    swiCopy(&tileFull, &BG_TILE_RAM_SUB(1)[32], 32);
+    swiCopy(&tileEmpty, &BG_TILE_RAM_SUB(4)[0], 32);
+    swiCopy(&tileFull, &BG_TILE_RAM_SUB(4)[32], 32);
 
 	// Assign color to the used components of the palette
     BG_PALETTE_SUB[254] = GREY;
@@ -75,17 +75,17 @@ void configBG0_Sub() {
     for(v = 0; v<32 ; v++)
     {
         for(h = 0; h<32; h++)
-            BG_MAP_RAM_SUB(2)[v*32 + h] = 0;
+            BG_MAP_RAM_SUB(25)[v*32 + h] = 0;
     }
     for(v = 0; v<32; v++)
     {
-        BG_MAP_RAM_SUB(2)[v*32 + 7] = 1;
-        BG_MAP_RAM_SUB(2)[v*32 + 8] = 1;
+        BG_MAP_RAM_SUB(25)[v*32 + 7] = 1;
+        BG_MAP_RAM_SUB(25)[v*32 + 8] = 1;
 
-        BG_MAP_RAM_SUB(2)[v*32 + 15] = 1;
-        BG_MAP_RAM_SUB(2)[v*32 + 16] = 1;
+        BG_MAP_RAM_SUB(25)[v*32 + 15] = 1;
+        BG_MAP_RAM_SUB(25)[v*32 + 16] = 1;
 
-        BG_MAP_RAM_SUB(2)[v*32 + 23] = 1;
-        BG_MAP_RAM_SUB(2)[v*32 + 24] = 1;
+        BG_MAP_RAM_SUB(25)[v*32 + 23] = 1;
+        BG_MAP_RAM_SUB(25)[v*32 + 24] = 1;
     }
 }
