@@ -5,7 +5,7 @@
 
 void configureGraphics_Sub() {
     // Configure the SUB engine in Rotoscale Mode
-    REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;
+    REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE | DISPLAY_BG0_ACTIVE;
 
 	// Configure the corresponding VRAM memory bank correctly
     VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
@@ -32,8 +32,27 @@ void configBG2_Sub() {
 
 
 
-// Custom empty tile
-//...TO COMPLETE EXERCISE 5
+u16 tileEmpty[65] = {
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0
+};
+
+u16 tileFull[65] = {
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 254, 254, 254, 254, 254, 254, 255,
+    255, 254, 255, 255, 255, 255, 254, 255,
+    255, 254, 255, 254, 254, 255, 254, 255,
+    255, 254, 255, 254, 254, 255, 254, 255,
+    255, 254, 255, 255, 255, 255, 254, 255,
+    255, 254, 254, 254, 254, 254, 254, 255,
+    255, 255, 255, 255, 255, 255, 255, 255
+};
 
 // Custom full tile
 //...TO COMPLETE EXERCISE 5
@@ -41,14 +60,32 @@ void configBG2_Sub() {
 void configBG0_Sub() {
 
 	// Configure background BG0 in tiled mode using a 32x32 grid and 256 colors
-	//...TO COMPLETE EXERCISE 5
+    BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(2) | BG_TILE_BASE(1);
 
 	// Transfer custom tiles to the proper memory locations
-	//...TO COMPLETE EXERCISE 5
+    swiCopy(&tileEmpty, &BG_TILE_RAM_SUB(1)[0], 32);
+    swiCopy(&tileFull, &BG_TILE_RAM_SUB(1)[32], 32);
 
 	// Assign color to the used components of the palette
-	//...TO COMPLETE EXERCISE 5
+    BG_PALETTE_SUB[254] = GREY;
+    BG_PALETTE_SUB[255] = BLACK;
 
 	// Create map to show a separation of 16 pixels (2 tiles) between regions
-	//...TO COMPLETE EXERCISE 5
+    int v, h;
+    for(v = 0; v<32 ; v++)
+    {
+        for(h = 0; h<32; h++)
+            BG_MAP_RAM_SUB(2)[v*32 + h] = 0;
+    }
+    for(v = 0; v<32; v++)
+    {
+        BG_MAP_RAM_SUB(2)[v*32 + 7] = 1;
+        BG_MAP_RAM_SUB(2)[v*32 + 8] = 1;
+
+        BG_MAP_RAM_SUB(2)[v*32 + 15] = 1;
+        BG_MAP_RAM_SUB(2)[v*32 + 16] = 1;
+
+        BG_MAP_RAM_SUB(2)[v*32 + 23] = 1;
+        BG_MAP_RAM_SUB(2)[v*32 + 24] = 1;
+    }
 }
