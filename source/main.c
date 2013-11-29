@@ -36,11 +36,23 @@ void exercise_4() {
 	initGame();
 
 	while(1) {
-		// Check if the touchscreen has been touched
-		// if YES, read the coordinates and identify the touched_region (0,1,2 or 3)
-		// if NO, set the touched_region to any different value (e.g. -1)
-		//...TO COMPLETE EXERCISE 4
+        // Check if the touchscreen has been touched
+        // if YES, read the coordinates and identify the touched_region (0,1,2 or 3)
+        // if NO, set the touched_region to any different value (e.g. -1)
+        //...TO COMPLETE EXERCISE 4
 
+        touched_region = -1;
+        scanKeys();
+        int state = keysDown();
+        if(state & KEY_TOUCH)
+        {
+            touchPosition pos;
+            touchRead(&pos);
+            if(pos.px != 0 || pos.py != 0)
+            {
+                touched_region = (4*pos.px) / SCREEN_WIDTH;
+            }
+        }
 		// If a region is touched, try the corresponding color in the secret sequence
 		switch(touched_region) {
 			case 0: tryColor(RED); break;
@@ -64,7 +76,7 @@ int main(void) {
     exercise_3();
 
 	// EXERCISE 4: Uncomment the following line (DO NOT comment the previous ones)
-//	exercise_4();
+    exercise_4();
 
 	while(1)
 		swiWaitForVBlank();
