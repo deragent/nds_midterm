@@ -61,7 +61,7 @@ int main(void) {
     exercise_2();
 
 	// EXERCISE 3: Uncomment the following line (DO NOT comment the previous ones)
-//	exercise_3();
+    exercise_3();
 
 	// EXERCISE 4: Uncomment the following line (DO NOT comment the previous ones)
 //	exercise_4();
